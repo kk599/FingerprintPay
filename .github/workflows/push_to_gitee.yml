@@ -1,6 +1,6 @@
 name: 'Push to Gitee'
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
   repo-sync:
