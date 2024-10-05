@@ -50,77 +50,77 @@ import eu.chainfire.libsuperuser.Shell;
 public class UpdateFactory {
 
     public static void doUpdateCheck(final Context context) {
-        doUpdateCheck(context, true, false);
+        // doUpdateCheck(context, true, false);
     }
 
     public static void doUpdateCheck(final Context context, final boolean quite, final boolean dontSkip) {
-        if (!quite) {
-            Toaster.showLong(Lang.getString(R.id.toast_checking_update));
-        }
-        try {
-            String packageName = context.getPackageName();
-            String fileName = PluginApp.runActionBaseOnCurrentPluginType(new HashMap<PluginType, Callable<String>>() {{
-                put(PluginType.Riru, () -> packageName + ".riru.zip");
-                put(PluginType.Zygisk, () -> packageName + ".zygisk.zip");
-                put(PluginType.Xposed, () -> packageName + ".apk");
-            }});
-            File targetFile = FileUtils.getSharableFile(context, fileName);
-            FileUtils.delete(targetFile);
-            new GithubUpdateChecker(BuildConfig.VERSION_NAME, Constant.UPDATE_URL_GITHUB,
-                    new UpdateResultListener() {
-                @Override
-                public void onNoUpdate() {
-                    if (!quite) {
-                        Toaster.showLong(Lang.getString(R.id.toast_no_update));
-                    }
-                }
+        // if (!quite) {
+        //     Toaster.showLong(Lang.getString(R.id.toast_checking_update));
+        // }
+        // try {
+        //     String packageName = context.getPackageName();
+        //     String fileName = PluginApp.runActionBaseOnCurrentPluginType(new HashMap<PluginType, Callable<String>>() {{
+        //         put(PluginType.Riru, () -> packageName + ".riru.zip");
+        //         put(PluginType.Zygisk, () -> packageName + ".zygisk.zip");
+        //         put(PluginType.Xposed, () -> packageName + ".apk");
+        //     }});
+        //     File targetFile = FileUtils.getSharableFile(context, fileName);
+        //     FileUtils.delete(targetFile);
+        //     new GithubUpdateChecker(BuildConfig.VERSION_NAME, Constant.UPDATE_URL_GITHUB,
+        //             new UpdateResultListener() {
+        //         @Override
+        //         public void onNoUpdate() {
+        //             if (!quite) {
+        //                 Toaster.showLong(Lang.getString(R.id.toast_no_update));
+        //             }
+        //         }
 
-                @Override
-                public void onNetErr(Exception e) {
-                    if (!quite) {
-                        Toaster.showLong(Lang.getString(R.id.toast_check_update_fail_net_err));
-                    }
-                }
+        //         @Override
+        //         public void onNetErr(Exception e) {
+        //             if (!quite) {
+        //                 Toaster.showLong(Lang.getString(R.id.toast_check_update_fail_net_err));
+        //             }
+        //         }
 
-                @Override
-                public void onHasUpdate(UpdateInfo updateInfo) {
-                    if (!dontSkip) {
-                        if (isSkipVersion(context, updateInfo.version)) {
-                            L.d("已跳過版本: " + updateInfo.version);
-                            return;
-                        }
-                    }
-                    Toaster.cancel();
-                    UpdateInfoView updateInfoView = new UpdateInfoView(context);
-                    updateInfoView.setTitle(Lang.getString(R.id.found_new_version) + updateInfo.version);
-                    updateInfoView.setContent(updateInfo.content);
-                    updateInfoView.withOnNeutralButtonClickListener((dialogInterface, i) -> {
-                        Config.from(context).setSkipVersion(updateInfo.version);
-                        dialogInterface.dismiss();
-                    });
-                    updateInfoView.withOnPositiveButtonClickListener((dialogInterface, i) -> {
-                        PluginApp.runActionBaseOnCurrentPluginType(new HashMap<PluginType, Callable<Object>>() {{
-                            put(PluginType.Riru, () -> {
-                                handleMagiskUpdate(context, updateInfo, dialogInterface);
-                                return null;
-                            });
-                            put(PluginType.Zygisk, () -> {
-                                handleMagiskUpdate(context, updateInfo, dialogInterface);
-                                return null;
-                            });
-                            put(PluginType.Xposed, () -> {
-                                handleXposedUpdate(context, updateInfo, dialogInterface);
-                                return null;
-                            });
-                        }});
-                    });
-                    Task.onMain(200, updateInfoView::showInDialog);
-                }
-            }).doUpdateCheck();
-        } catch (Exception | Error e) {
-            //for OPPO R11 Plus 6.0 NoSuchFieldError: No instance field mResultListener
-            L.e(e);
-        }
+        //         @Override
+        //         public void onHasUpdate(UpdateInfo updateInfo) {
+        //             if (!dontSkip) {
+        //                 if (isSkipVersion(context, updateInfo.version)) {
+        //                     L.d("已跳過版本: " + updateInfo.version);
+        //                     return;
+        //                 }
+        //             }
+        //             Toaster.cancel();
+        //             UpdateInfoView updateInfoView = new UpdateInfoView(context);
+        //             updateInfoView.setTitle(Lang.getString(R.id.found_new_version) + updateInfo.version);
+        //             updateInfoView.setContent(updateInfo.content);
+        //             updateInfoView.withOnNeutralButtonClickListener((dialogInterface, i) -> {
+        //                 Config.from(context).setSkipVersion(updateInfo.version);
+        //                 dialogInterface.dismiss();
+        //             });
+        //             updateInfoView.withOnPositiveButtonClickListener((dialogInterface, i) -> {
+        //                 PluginApp.runActionBaseOnCurrentPluginType(new HashMap<PluginType, Callable<Object>>() {{
+        //                     put(PluginType.Riru, () -> {
+        //                         handleMagiskUpdate(context, updateInfo, dialogInterface);
+        //                         return null;
+        //                     });
+        //                     put(PluginType.Zygisk, () -> {
+        //                         handleMagiskUpdate(context, updateInfo, dialogInterface);
+        //                         return null;
+        //                     });
+        //                     put(PluginType.Xposed, () -> {
+        //                         handleXposedUpdate(context, updateInfo, dialogInterface);
+        //                         return null;
+        //                     });
+        //                 }});
+        //             });
+        //             Task.onMain(200, updateInfoView::showInDialog);
+        //         }
+        //     }).doUpdateCheck();
+        // } catch (Exception | Error e) {
+        //     //for OPPO R11 Plus 6.0 NoSuchFieldError: No instance field mResultListener
+        //     L.e(e);
+        // }
     }
 
     private static void handleMagiskUpdate(Context context, UpdateInfo updateInfo, DialogInterface updateInfoViewDialogInterface) {
@@ -236,19 +236,19 @@ public class UpdateFactory {
     }
 
     public static void lazyUpdateWhenActivityAlive() {
-        int lazyCheckTimeMsec = BuildConfig.DEBUG ? 200 : 6000;
-        Task.onMain(lazyCheckTimeMsec, new Runnable() {
-            @Override
-            public void run() {
-                Activity activity = ApplicationUtils.getCurrentActivity();
-                if (activity == null
-                    || activity.getClass().getName().contains("com.tencent.mm.app.WeChatSplashActivity")) {
-                    Task.onMain(lazyCheckTimeMsec, this);
-                    return;
-                }
-                UpdateFactory.doUpdateCheck(activity);
-            }
-        });
+        // int lazyCheckTimeMsec = BuildConfig.DEBUG ? 200 : 6000;
+        // Task.onMain(lazyCheckTimeMsec, new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         Activity activity = ApplicationUtils.getCurrentActivity();
+        //         if (activity == null
+        //             || activity.getClass().getName().contains("com.tencent.mm.app.WeChatSplashActivity")) {
+        //             Task.onMain(lazyCheckTimeMsec, this);
+        //             return;
+        //         }
+        //         UpdateFactory.doUpdateCheck(activity);
+        //     }
+        // });
     }
 
     private static boolean isSkipVersion(Context context, String targetVersion) {
