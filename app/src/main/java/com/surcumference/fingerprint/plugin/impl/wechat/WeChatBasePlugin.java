@@ -358,7 +358,7 @@ public class WeChatBasePlugin implements IAppPlugin, IMockCurrentUser {
                 // fingerPrintLayout.setVisibility(View.GONE);
                 passwordLayout.addView(fingerPrintLayout);
                 // ensure image icon visibility
-                Task.onMain(3500, fingerPrintLayout::requestLayout);
+                Task.onMain(1000, fingerPrintLayout::requestLayout);
                 passwordLayout.setClipChildren(false);
                 ((ViewGroup) passwordLayout.getParent()).setClipChildren(false);
                 ((ViewGroup) passwordLayout.getParent().getParent()).setTop(((ViewGroup) passwordLayout.getParent().getParent()).getTop() + 200);
