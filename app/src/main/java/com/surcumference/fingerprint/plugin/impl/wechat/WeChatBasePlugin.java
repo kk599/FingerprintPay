@@ -159,7 +159,7 @@ public class WeChatBasePlugin implements IAppPlugin, IMockCurrentUser {
                     ActivityViewObserver.IActivityViewListener l = this;
                     ActivityViewObserverHolder.stop(observer);
                     L.d("onViewFounded:", view, " rootView: ", view.getRootView());
-                    view.postDelayed(() -> onPayDialogShown((ViewGroup) view.getRootView()), 100);
+                    view.postDelayed(() -> onPayDialogShown((ViewGroup) view.getRootView()), 200);
                     View.OnAttachStateChangeListener listener = mView2OnAttachStateChangeListenerMap.get(view);
                     if (listener != null) {
                         view.removeOnAttachStateChangeListener(listener);
